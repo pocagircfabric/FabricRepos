@@ -1,0 +1,1312 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "additionalColumns": [
+              {
+                "name": "filename",
+                "value": "$$FILENAME"
+              },
+              {
+                "name": "ingestion_ts",
+                "value": {
+                  "value": "@utcNow()",
+                  "type": "Expression"
+                }
+              }
+            ],
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "wildcardFolderPath": "OneDrive_1_2-26-2026",
+              "wildcardFileName": "PSID099.CMN.BRC.ListeDetail.Stock-Entrees-Sorties-Taches-HEBDO*",
+              "enablePartitionDiscovery": false
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation"
+                },
+                "columnDelimiter": ";",
+                "encodingName": "WINDOWS-1252",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "dp_brc_global_raw"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "Code_GPS",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_GPS",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_technique_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_technique_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "IRC_primo_affectation_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "IRC_primo_affectation_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_EG_corbeille_Collective_d_affectation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_EG_corbeille_Collective_d_affectation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Systeme_applicatif",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Systeme_applicatif",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_court_Processus_Metier",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_court_Processus_Metier",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_court_Sous_processus_Metier",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_court_Sous_processus_Metier",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_Etape_Metier",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_Etape_Metier",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Code_type_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_type_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_Type_Tache_Metier",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_Type_Tache_Metier",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Timestamp_creation_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Timestamp_creation_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Timestamp_Affectation_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Timestamp_Affectation_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Timestamp_Statut_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Timestamp_Statut_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Poids_de_la_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Poids_de_la_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Degre_d_urgence_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Degre_d_urgence_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_limite_de_traitement",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_limite_de_traitement",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Sensibilite",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Sensibilite",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Distribution",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Distribution",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Reference",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Reference",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_Interne_Type_Objet_Dossier",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_Interne_Type_Objet_Dossier",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_Stock",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_Stock",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_entree",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_entree",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_Sortie",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_Sortie",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "filename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "filename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ingestion_ts",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ingestion_ts",
+                  "physicalType": "string"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load dp_brc_global_raw",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "additionalColumns": [
+              {
+                "name": "filename",
+                "value": "$$FILENAME"
+              },
+              {
+                "name": "ingestion_ts",
+                "value": {
+                  "value": "@utcNow()",
+                  "type": "Expression"
+                }
+              }
+            ],
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "wildcardFolderPath": "OneDrive_1_2-26-2026",
+              "wildcardFileName": "PSID099.CMN.BRC.ListeDetail.Entreprise-CFIAB-Stock-Entrees-Sorties-Taches-HEBDO*",
+              "enablePartitionDiscovery": false
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation"
+                },
+                "columnDelimiter": ";",
+                "encodingName": "WINDOWS-1252",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "dp_brc_cfiab_raw"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "Code_GPS",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_GPS",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_technique_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_technique_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_fonctionnel_IRC_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_fonctionnel_IRC_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Code_type_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_type_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_type_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_type_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Chemin_arborescence_nom_EG_Affectation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Chemin_arborescence_nom_EG_Affectation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Anonymisation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Anonymisation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_limite_de_traitement",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_limite_de_traitement",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_de_creation_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_de_creation_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_statut_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_statut_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Anciennete_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Anciennete_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_nombre_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_nombre_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_nombre_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_nombre_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_nombre_2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_nombre_2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_nombre_2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_nombre_2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_nombre_3",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_nombre_3",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_nombre_3",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_nombre_3",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Indicateur_presence_libelle_commentaire_utilisateur",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Indicateur_presence_libelle_commentaire_utilisateur",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Indicateur_entreprise_protegee",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Indicateur_entreprise_protegee",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Reference",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_interne_Type_Objet_Gestion_Reference",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_Public_Type_Objet_CTX2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_Public_Type_Objet_CTX2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_Stock",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_Stock",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_entree",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_entree",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_Sortie",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_Sortie",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "filename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "filename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ingestion_ts",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ingestion_ts",
+                  "physicalType": "string"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load dp_brc_cfiab_raw",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "additionalColumns": [
+              {
+                "name": "filename",
+                "value": "$$FILENAME"
+              },
+              {
+                "name": "ingestion_ts",
+                "value": {
+                  "value": "@utcNow()",
+                  "type": "Expression"
+                }
+              }
+            ],
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "wildcardFolderPath": "OneDrive_1_2-26-2026",
+              "wildcardFileName": "PSID099.CMN.BRC.ListeDetail.Entreprise-DSN-Stock-Entrees-Sorties-Taches-HEBDO*",
+              "enablePartitionDiscovery": false
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation"
+                },
+                "columnDelimiter": ";",
+                "encodingName": "WINDOWS-1252",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "dp_brc_dsn_raw"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lkh_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f13a99ac-b1c7-ac30-4864-dda4b668c256",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "Code_GPS",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_GPS",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_technique_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_technique_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Identifiant_fonctionnel_IRC_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Identifiant_fonctionnel_IRC_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Code_type_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Code_type_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_type_tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_type_tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_long_Statut_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Chemin_arborescence_nom_EG_Affectation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Chemin_arborescence_nom_EG_Affectation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Anonymisation",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Anonymisation",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_limite_de_traitement",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_limite_de_traitement",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_de_creation_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_de_creation_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Date_statut_Tache",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Date_statut_Tache",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_3",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_3",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_nombre_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_nombre_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_nombre_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_nombre_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_nombre_2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_nombre_2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_nombre_2",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_nombre_2",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Libelle_information_complementaire_date_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Libelle_information_complementaire_date_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Valeur_information_complementaire_date_1",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Valeur_information_complementaire_date_1",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Indicateur_presence_libelle_commentaire_utilisateur",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Indicateur_presence_libelle_commentaire_utilisateur",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "SIREN",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "SIREN",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Indicateur_Grande_entreprise",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Indicateur_Grande_entreprise",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Nombre_d_adhesions_ouvertes",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Nombre_d_adhesions_ouvertes",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Indicateur_entreprise_protegee",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Indicateur_entreprise_protegee",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_stock",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_stock",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_entree",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_entree",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "Tache_en_sortie",
+                  "type": "String",
+                  "physicalType": "String"
+                },
+                "sink": {
+                  "name": "Tache_en_sortie",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "filename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "filename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "ingestion_ts",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "ingestion_ts",
+                  "physicalType": "string"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load dp_brc_dsn_raw",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "d4bba721-c1c0-9d66-4e0c-8b4012bd5bf4",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load dp_scl_tache_raw",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "ab56c57c-fed4-a492-430f-d1d8c47f009d",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load dp_scl_dossier_raw",
+        "dependsOn": []
+      }
+    ]
+  }
+}
