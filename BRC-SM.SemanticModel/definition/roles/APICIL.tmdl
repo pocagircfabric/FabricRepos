@@ -1,0 +1,7 @@
+role APICIL
+	modelPermission: read
+
+	tablePermission dim_irc = [Identifiant_fonctionnel_IRC_Tache] == "APICIL"
+
+	annotation PBI_Id = b9ca753e64de4548b3626a4e994583a9
+

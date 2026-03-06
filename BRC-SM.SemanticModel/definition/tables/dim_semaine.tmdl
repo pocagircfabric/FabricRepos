@@ -1,0 +1,70 @@
+table dim_semaine
+	lineageTag: f110e5bf-3f6f-4a5e-8714-538fb83fefb2
+	sourceLineageTag: [dim].[dim_semaine]
+
+	column Numero_Semaine
+		dataType: int64
+		formatString: 0
+		lineageTag: f85d7191-ef90-495b-9524-3914df886a87
+		sourceLineageTag: Numero_Semaine
+		summarizeBy: none
+		sourceColumn: Numero_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Annee
+		dataType: int64
+		formatString: 0
+		lineageTag: e68989ae-5ec4-49c5-99d4-77466595f9de
+		sourceLineageTag: Annee
+		summarizeBy: sum
+		sourceColumn: Annee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Semaine
+		dataType: int64
+		formatString: 0
+		lineageTag: a2ea9fd9-a956-45db-8e4e-9f6106c7929a
+		sourceLineageTag: Semaine
+		summarizeBy: sum
+		sourceColumn: Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_Debut_Semaine
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a8120e24-2332-48a1-b951-403fc8a7baf8
+		sourceLineageTag: Date_Debut_Semaine
+		summarizeBy: none
+		sourceColumn: Date_Debut_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_Fin_Semaine
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9b9e45d0-8b4e-4172-8e6a-87685ab3c179
+		sourceLineageTag: Date_Fin_Semaine
+		summarizeBy: none
+		sourceColumn: Date_Fin_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_Semaine
+		dataType: string
+		lineageTag: 9fa264cf-226c-41bf-ad75-f20a39f9e563
+		sourceLineageTag: Libelle_Semaine
+		summarizeBy: none
+		sourceColumn: Libelle_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_semaine = entity
+		mode: directLake
+		source
+			entityName: dim_semaine
+			schemaName: dim
+			expressionSource: 'DirectLake - lkh_gold'
+

@@ -1,0 +1,20 @@
+table dim_irc
+	lineageTag: 1aa16be0-cb46-4817-ad8c-6c1a95ae8fb3
+	sourceLineageTag: [dim].[dim_irc]
+
+	column Identifiant_fonctionnel_IRC_Tache
+		dataType: string
+		lineageTag: c545dd6a-a73a-4b00-a844-a46f72c3e67e
+		sourceLineageTag: Identifiant_fonctionnel_IRC_Tache
+		summarizeBy: none
+		sourceColumn: Identifiant_fonctionnel_IRC_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_irc = entity
+		mode: directLake
+		source
+			entityName: dim_irc
+			schemaName: dim
+			expressionSource: 'DirectLake - lkh_gold'
+

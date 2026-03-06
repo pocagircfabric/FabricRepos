@@ -1,0 +1,169 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "aa6bfb9e-feac-a1da-4927-fa7cebcbbb90",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "6cd9d32b-0ea8-4001-ae2d-7a717f5b072d"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "loading Bronze",
+        "dependsOn": []
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "01898ca6-ce2e-aa80-4371-0a94ea418310",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "6cd9d32b-0ea8-4001-ae2d-7a717f5b072d"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "From Bronze to Silver",
+        "dependsOn": [
+          {
+            "activity": "loading Bronze",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "b77752a9-9af9-824d-4b2d-335dc13f48a3",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "From Silver to Gold",
+        "dependsOn": [
+          {
+            "activity": "From Bronze to Silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>- @{utcNow()}</p>\n<p>- Consultez les logs : @{concat('https://app.powerbi.com/workloads/data-pipeline/monitoring/workspaces/',pipeline().DataFactory,'/pipelines/',pipeline().Pipeline,'/',pipeline().RunId,'?experience=power-bi')}&nbsp;</p>\n<p><br></p>\n<p><br></p>\n<p><br></p>",
+          "teamId": "18d2ad04-2a4a-4734-b2ec-0cbbf6414dc5",
+          "channelId": "19:Xo1DnPue2TbQWTkRyY8J-k4nlNtqqbY_jbxVN8bS87Y1@thread.tacv2",
+          "operationType": "SendMessageInChannel",
+          "subject": "Bronze loading failure"
+        },
+        "externalReferences": {
+          "connection": "20be86fe-3b56-4c1f-85f6-5ca6ca374b80"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze loading failure",
+        "dependsOn": [
+          {
+            "activity": "loading Bronze",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>- @{utcNow()}</p>\n<p>- Consultez les logs : @{concat('https://app.powerbi.com/workloads/data-pipeline/monitoring/workspaces/',pipeline().DataFactory,'/pipelines/',pipeline().Pipeline,'/',pipeline().RunId,'?experience=power-bi')}&nbsp;</p>",
+          "teamId": "18d2ad04-2a4a-4734-b2ec-0cbbf6414dc5",
+          "channelId": "19:Xo1DnPue2TbQWTkRyY8J-k4nlNtqqbY_jbxVN8bS87Y1@thread.tacv2",
+          "operationType": "SendMessageInChannel",
+          "subject": "Silver loading failure"
+        },
+        "externalReferences": {
+          "connection": "20be86fe-3b56-4c1f-85f6-5ca6ca374b80"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver loading failure",
+        "dependsOn": [
+          {
+            "activity": "From Bronze to Silver",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "MicrosoftTeams",
+        "typeProperties": {
+          "content": "<p>- @{utcNow()}</p>\n<p>- Consultez les logs : @{concat('https://app.powerbi.com/workloads/data-pipeline/monitoring/workspaces/',pipeline().DataFactory,'/pipelines/',pipeline().Pipeline,'/',pipeline().RunId,'?experience=power-bi')}&nbsp;</p>",
+          "teamId": "18d2ad04-2a4a-4734-b2ec-0cbbf6414dc5",
+          "channelId": "19:Xo1DnPue2TbQWTkRyY8J-k4nlNtqqbY_jbxVN8bS87Y1@thread.tacv2",
+          "operationType": "SendMessageInChannel",
+          "subject": "Gold loading failure"
+        },
+        "externalReferences": {
+          "connection": "20be86fe-3b56-4c1f-85f6-5ca6ca374b80"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Gold loading failure",
+        "dependsOn": [
+          {
+            "activity": "From Silver to Gold",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

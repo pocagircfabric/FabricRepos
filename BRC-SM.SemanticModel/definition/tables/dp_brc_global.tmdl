@@ -1,0 +1,497 @@
+table dp_brc_global
+	lineageTag: a85f174e-6abf-4c71-9f29-03f8713488d8
+	sourceLineageTag: [dp1].[dp_brc_global]
+
+	measure Nb_Taches_Stock_Global = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_global'),
+			        'dp_brc_global'[Tache_en_Stock] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: 10f47394-57da-428e-9777-32bf4bf5c95d
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nombre de tâches en entrée
+	measure Nb_Taches_Entree_Global = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_global'),
+			        'dp_brc_global'[Tache_en_entree] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: 3af04b93-745f-465f-992d-9b4026973e8b
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nombre de tâches en sortie
+	measure Nb_Taches_Sortie_Global = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_global'),
+			        'dp_brc_global'[Tache_en_Sortie] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: c0b103c4-b0f0-4c74-9145-5c7c209fe88f
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Variation du stock semaine N vs N-1
+	measure Variation_Stock_WoW = ```
+			
+			    VAR _StockActuel = [Nb_Taches_Stock_Global]
+			    VAR _SemainePrecedente = 
+			        CALCULATE(
+			            [Nb_Taches_Stock_Global],
+			            FILTER(
+			                ALL('Dim_Semaine'),
+			                'Dim_Semaine'[Numero_Semaine] = 
+			                    MAX('Dim_Semaine'[Numero_Semaine]) - 1
+			            )
+			        )
+			    RETURN _StockActuel - _SemainePrecedente
+			```
+		formatString: 0
+		displayFolder: .KPI
+		lineageTag: 98b9a568-e959-4c4b-b1eb-f658946a2450
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Variation semaine N vs N-1 en pourcentage
+	measure Variation_Stock_WoW_Pct = ```
+			
+			    VAR _Precedent = 
+			        CALCULATE(
+			            [Nb_Taches_Stock_Global],
+			            FILTER(
+			                ALL('Dim_Semaine'),
+			                'Dim_Semaine'[Numero_Semaine] = 
+			                    MAX('Dim_Semaine'[Numero_Semaine]) - 1
+			            )
+			        )
+			    RETURN 
+			        IF(_Precedent <> 0,
+			            DIVIDE([Nb_Taches_Stock_Global] - _Precedent, _Precedent),
+			            BLANK()
+			        )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: .KPI
+		lineageTag: 3039b6e3-8d11-48d0-b305-7b7965c1962c
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Ratio Entrées / Sorties (> 1 = stock croissant)
+	measure Ratio_Entrees_Sorties = ```
+			
+			    DIVIDE([Nb_Taches_Entree_Global], [Nb_Taches_Sortie_Global])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: .KPI
+		lineageTag: 111cd549-e7d9-4a64-9bd0-ec610bb5d38e
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Ancienneté moyenne des tâches en stock (jours)
+	/// 
+	measure Anciennete_Moyenne_Stock_Jours = ```
+			
+			    CALCULATE(
+			        AVERAGEX(
+			            'dp_brc_global',
+			            DATEDIFF(
+			                'dp_brc_global'[Timestamp_creation_tache],
+			                NOW(),
+			                DAY
+			            )
+			        ),
+			        'dp_brc_global'[Tache_en_Stock] = "OUI"
+			    )
+			```
+		displayFolder: .KPI
+		lineageTag: 7eddc432-5aa0-4f95-ab26-f2f75cc7dfe9
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Nb de tâches en dépassement de délai
+	/// 
+	measure Nb_Taches_Hors_Delai = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_global'),
+			        'dp_brc_global'[Tache_en_Stock] = "OUI",
+			        'dp_brc_global'[Date_limite_de_traitement] < TODAY()
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: a1abbfd6-1ff9-4f27-8233-9208b30b227c
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Taux de tâches hors délai
+	measure Taux_Hors_Delai = ```
+			
+			    DIVIDE([Nb_Taches_Hors_Delai], [Nb_Taches_Stock_Global])
+			```
+		displayFolder: .KPI
+		lineageTag: 8e645b46-30c3-4715-9d3f-84666d43907f
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Poids moyen des tâches
+	measure Poids_Moyen_Taches = ```
+			
+			    AVERAGE('dp_brc_global'[Poids_de_la_tache])
+			```
+		displayFolder: .KPI
+		lineageTag: cbf84683-5fdd-4981-a9c5-0804a28f6670
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Numero_Semaine
+		dataType: int64
+		formatString: 0
+		lineageTag: a597fc1f-aa48-416c-813b-4d2df67ac404
+		sourceLineageTag: Numero_Semaine
+		summarizeBy: none
+		sourceColumn: Numero_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_GPS
+		dataType: string
+		isHidden
+		lineageTag: 9f17457b-a207-454b-b273-7adf8ac672c8
+		sourceLineageTag: Code_GPS
+		summarizeBy: none
+		sourceColumn: Code_GPS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_technique_tache
+		dataType: int64
+		formatString: 0
+		lineageTag: 37016898-2fc9-446d-9e38-a3a4b3bfe0cb
+		sourceLineageTag: Identifiant_technique_tache
+		summarizeBy: sum
+		sourceColumn: Identifiant_technique_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column IRC_primo_affectation_tache
+		dataType: string
+		isHidden
+		lineageTag: a98bb832-5810-4e03-9c83-bafb01455a55
+		sourceLineageTag: IRC_primo_affectation_tache
+		summarizeBy: none
+		sourceColumn: IRC_primo_affectation_tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+		dataType: string
+		lineageTag: f3df49a5-d61a-4bf6-b71b-e1a673de2a6b
+		sourceLineageTag: Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+		summarizeBy: none
+		sourceColumn: Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_EG_corbeille_Collective_d_affectation
+		dataType: string
+		lineageTag: 68adfa54-c98b-4a05-95a8-6c12b5d8241f
+		sourceLineageTag: Libelle_EG_corbeille_Collective_d_affectation
+		summarizeBy: none
+		sourceColumn: Libelle_EG_corbeille_Collective_d_affectation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+		dataType: string
+		lineageTag: 015ad4b7-09bd-4f80-8434-e45e30941750
+		sourceLineageTag: Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+		summarizeBy: none
+		sourceColumn: Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Systeme_applicatif
+		dataType: string
+		lineageTag: 995b69e6-0dcb-4419-b00d-69d5dd9b4252
+		sourceLineageTag: Systeme_applicatif
+		summarizeBy: none
+		sourceColumn: Systeme_applicatif
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_court_Processus_Metier
+		dataType: string
+		lineageTag: 6e7d9c78-e324-45ef-a0ae-ccb716ce84dc
+		sourceLineageTag: Libelle_court_Processus_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_court_Processus_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_court_Sous_processus_Metier
+		dataType: string
+		lineageTag: 155e39ab-68e1-495f-b736-04a41c8e5d66
+		sourceLineageTag: Libelle_court_Sous_processus_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_court_Sous_processus_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Etape_Metier
+		dataType: string
+		lineageTag: 0ecee65a-c99f-4f15-a476-0e14d006410a
+		sourceLineageTag: Libelle_long_Etape_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_long_Etape_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_type_tache
+		dataType: string
+		isHidden
+		lineageTag: 7e116a33-8999-47fa-95a3-3f23e8750674
+		sourceLineageTag: Code_type_tache
+		summarizeBy: none
+		sourceColumn: Code_type_tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Type_Tache_Metier
+		dataType: string
+		isHidden
+		lineageTag: 3c78b795-89d5-47ec-b4db-d3f2080e14d6
+		sourceLineageTag: Libelle_long_Type_Tache_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_long_Type_Tache_Metier
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Timestamp_creation_tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f179f366-5cf2-4949-b7f5-3fb5a745b3e1
+		sourceLineageTag: Timestamp_creation_tache
+		summarizeBy: none
+		sourceColumn: Timestamp_creation_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Timestamp_Affectation_tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 608fc6e0-bf02-4cc7-b0ad-64782d5c9130
+		sourceLineageTag: Timestamp_Affectation_tache
+		summarizeBy: none
+		sourceColumn: Timestamp_Affectation_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Statut_Tache
+		dataType: string
+		lineageTag: d97d2ea4-3856-4586-bc2a-1091139802ca
+		sourceLineageTag: Libelle_long_Statut_Tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_Statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Timestamp_Statut_tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f82b69db-b945-47bf-87ee-d17d898712b7
+		sourceLineageTag: Timestamp_Statut_tache
+		summarizeBy: none
+		sourceColumn: Timestamp_Statut_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Poids_de_la_tache
+		dataType: int64
+		formatString: 0
+		lineageTag: 2831058d-fb4d-4912-9efb-6c92730bcd66
+		sourceLineageTag: Poids_de_la_tache
+		summarizeBy: sum
+		sourceColumn: Poids_de_la_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Degre_d_urgence_Tache
+		dataType: int64
+		formatString: 0
+		lineageTag: 5297eda5-5ade-49e0-b21f-157cd0931fa8
+		sourceLineageTag: Degre_d_urgence_Tache
+		summarizeBy: sum
+		sourceColumn: Degre_d_urgence_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_limite_de_traitement
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 19d976ce-d38c-4b8e-be54-68c781543d39
+		sourceLineageTag: Date_limite_de_traitement
+		summarizeBy: none
+		sourceColumn: Date_limite_de_traitement
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sensibilite
+		dataType: string
+		lineageTag: ca8bd0b1-2060-4d71-9242-08516ef09623
+		sourceLineageTag: Sensibilite
+		summarizeBy: none
+		sourceColumn: Sensibilite
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_interne_Type_Objet_Gestion_Distribution
+		dataType: string
+		lineageTag: 6f6df746-41fb-496b-8acf-5a6b0104774c
+		sourceLineageTag: Identifiant_interne_Type_Objet_Gestion_Distribution
+		summarizeBy: none
+		sourceColumn: Identifiant_interne_Type_Objet_Gestion_Distribution
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_interne_Type_Objet_Gestion_Reference
+		dataType: string
+		lineageTag: 0c3829cf-2501-4cf7-af72-7563fe8ca0fb
+		sourceLineageTag: Identifiant_interne_Type_Objet_Gestion_Reference
+		summarizeBy: none
+		sourceColumn: Identifiant_interne_Type_Objet_Gestion_Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_Interne_Type_Objet_Dossier
+		dataType: string
+		lineageTag: 16a2b602-221c-4b94-a373-ec4135bd8f57
+		sourceLineageTag: Identifiant_Interne_Type_Objet_Dossier
+		summarizeBy: none
+		sourceColumn: Identifiant_Interne_Type_Objet_Dossier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_Stock
+		dataType: string
+		lineageTag: 34835d22-0708-4361-9ba6-58bdffbababa
+		sourceLineageTag: Tache_en_Stock
+		summarizeBy: none
+		sourceColumn: Tache_en_Stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_entree
+		dataType: string
+		lineageTag: 8e71d9cf-10a0-454a-b84c-4b240cb4dcb8
+		sourceLineageTag: Tache_en_entree
+		summarizeBy: none
+		sourceColumn: Tache_en_entree
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_Sortie
+		dataType: string
+		lineageTag: 932dbe8f-1577-40a0-90e0-1ce480696d8c
+		sourceLineageTag: Tache_en_Sortie
+		summarizeBy: none
+		sourceColumn: Tache_en_Sortie
+
+		annotation SummarizationSetBy = Automatic
+
+	column integration_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7fc21f0b-3616-49b4-bdd0-378de1b2a92c
+		sourceLineageTag: integration_ts
+		summarizeBy: none
+		sourceColumn: integration_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dp_brc_global = entity
+		mode: directLake
+		source
+			entityName: dp_brc_global
+			schemaName: dp1
+			expressionSource: 'DirectLake - lkh_gold'
+

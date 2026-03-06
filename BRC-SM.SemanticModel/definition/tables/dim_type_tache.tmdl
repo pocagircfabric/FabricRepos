@@ -1,0 +1,29 @@
+table dim_type_tache
+	lineageTag: b001117e-a013-4962-9eec-90e8019946be
+	sourceLineageTag: [dim].[dim_type_tache]
+
+	column Code_type_tache
+		dataType: string
+		lineageTag: f1b5340e-afed-4835-92b1-dedee6210715
+		sourceLineageTag: Code_type_tache
+		summarizeBy: none
+		sourceColumn: Code_type_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Type_Tache_Metier
+		dataType: string
+		lineageTag: 9e5d1809-17c3-48a8-955e-1bfd453870f8
+		sourceLineageTag: Libelle_long_Type_Tache_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_long_Type_Tache_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_type_tache = entity
+		mode: directLake
+		source
+			entityName: dim_type_tache
+			schemaName: dim
+			expressionSource: 'DirectLake - lkh_gold'
+

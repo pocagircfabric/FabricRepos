@@ -1,0 +1,160 @@
+table dp_brc_agrege
+	lineageTag: aeb2eb56-986a-40d0-90e7-558abf293240
+	sourceLineageTag: [dp9].[dp_brc_agrege]
+
+	column Numero_Semaine
+		dataType: int64
+		formatString: 0
+		lineageTag: eabd199b-06a9-420e-844b-9325630ecec8
+		sourceLineageTag: Numero_Semaine
+		summarizeBy: sum
+		sourceColumn: Numero_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_GPS
+		dataType: string
+		lineageTag: 12999d4e-57cd-429e-b7f9-cfe00015df62
+		sourceLineageTag: Code_GPS
+		summarizeBy: none
+		sourceColumn: Code_GPS
+
+		annotation SummarizationSetBy = Automatic
+
+	column IRC_primo_affectation_tache
+		dataType: string
+		lineageTag: a4705ef7-9108-4de6-a807-19c2457d3413
+		sourceLineageTag: IRC_primo_affectation_tache
+		summarizeBy: none
+		sourceColumn: IRC_primo_affectation_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+		dataType: string
+		lineageTag: 25237ea3-af99-4996-80e5-ca8e81503779
+		sourceLineageTag: Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+		summarizeBy: none
+		sourceColumn: Libelle_Chemin_Arborescence_nom_de_l_entite_de_Gestion_d_affectation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+		dataType: string
+		lineageTag: 1563746c-16e3-4560-a802-ea46b8535bcc
+		sourceLineageTag: Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+		summarizeBy: none
+		sourceColumn: Corbeille_Dernier_Identifiant_Utilisateur_RCI_rattache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Systeme_applicatif
+		dataType: string
+		lineageTag: d36cd22b-f4ad-473f-87bf-1793d065ba51
+		sourceLineageTag: Systeme_applicatif
+		summarizeBy: none
+		sourceColumn: Systeme_applicatif
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_court_Processus_Metier
+		dataType: string
+		lineageTag: 3b21fc98-5170-4a8e-912c-0f801036b844
+		sourceLineageTag: Libelle_court_Processus_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_court_Processus_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_court_Sous_processus_Metier
+		dataType: string
+		lineageTag: 9c51fae0-6ed3-4e09-9cfc-bc5b9838bd31
+		sourceLineageTag: Libelle_court_Sous_processus_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_court_Sous_processus_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Etape_Metier
+		dataType: string
+		lineageTag: dbece7fb-06d4-46a5-81d3-5ec6dc42558d
+		sourceLineageTag: Libelle_long_Etape_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_long_Etape_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_type_tache
+		dataType: string
+		lineageTag: f09be5a8-1c0d-4bd8-b6a1-3ab1ecac5632
+		sourceLineageTag: Code_type_tache
+		summarizeBy: none
+		sourceColumn: Code_type_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Type_Tache_Metier
+		dataType: string
+		lineageTag: 5248ba35-cc05-42e0-bcce-dcf08a0db0e9
+		sourceLineageTag: Libelle_long_Type_Tache_Metier
+		summarizeBy: none
+		sourceColumn: Libelle_long_Type_Tache_Metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Statut_Tache
+		dataType: string
+		lineageTag: 3adf34e2-1bd7-4c00-9f9f-8c85bec10768
+		sourceLineageTag: Libelle_long_Statut_Tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_Statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_TACHE_STOCK
+		dataType: int64
+		formatString: 0
+		lineageTag: bd729e5f-b390-4598-a9b0-ec2f292ecde5
+		sourceLineageTag: NB_TACHE_STOCK
+		summarizeBy: sum
+		sourceColumn: NB_TACHE_STOCK
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_TACHE_ENTREE
+		dataType: int64
+		formatString: 0
+		lineageTag: bfa7bbe9-45a1-4d2b-b28f-e2fcdde5ef10
+		sourceLineageTag: NB_TACHE_ENTREE
+		summarizeBy: sum
+		sourceColumn: NB_TACHE_ENTREE
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_TACHE_SORTIE
+		dataType: int64
+		formatString: 0
+		lineageTag: d20a99cd-0034-4ea5-870d-9a3310675309
+		sourceLineageTag: NB_TACHE_SORTIE
+		summarizeBy: sum
+		sourceColumn: NB_TACHE_SORTIE
+
+		annotation SummarizationSetBy = Automatic
+
+	column integration_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 50492d58-6f4f-4ff4-b592-488a3e4b8a9a
+		sourceLineageTag: integration_ts
+		summarizeBy: none
+		sourceColumn: integration_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dp_brc_agrege = entity
+		mode: directLake
+		source
+			entityName: dp_brc_agrege
+			schemaName: dp9
+			expressionSource: 'DirectLake - lkh_gold'
+

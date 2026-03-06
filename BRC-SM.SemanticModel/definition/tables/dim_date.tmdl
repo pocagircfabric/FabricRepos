@@ -1,0 +1,109 @@
+table dim_date
+	lineageTag: 6ab69d23-caac-4d5f-b704-6fc96bb326c9
+	sourceLineageTag: [dim].[dim_date]
+
+	column Date_Key
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 05b84fef-df4f-485f-bbe7-b7b66db06464
+		sourceLineageTag: Date_Key
+		summarizeBy: none
+		sourceColumn: Date_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Annee
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cf8541c-e253-4fe2-bbdf-5f3026e7fd05
+		sourceLineageTag: Annee
+		summarizeBy: sum
+		sourceColumn: Annee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: int64
+		formatString: 0
+		lineageTag: 30a2bcc2-4042-499d-9986-da484e3ba114
+		sourceLineageTag: Trimestre
+		summarizeBy: sum
+		sourceColumn: Trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mois
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dd43c6c-45f0-4b24-ba2d-3427f71b5db0
+		sourceLineageTag: Mois
+		summarizeBy: sum
+		sourceColumn: Mois
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_Mois
+		dataType: string
+		lineageTag: c32c3e52-01db-4359-adde-cc8ba2ffb1f1
+		sourceLineageTag: Libelle_Mois
+		summarizeBy: none
+		sourceColumn: Libelle_Mois
+
+		annotation SummarizationSetBy = Automatic
+
+	column Semaine_ISO
+		dataType: int64
+		formatString: 0
+		lineageTag: a6a572b6-be55-45a2-a1ba-6715970c119c
+		sourceLineageTag: Semaine_ISO
+		summarizeBy: sum
+		sourceColumn: Semaine_ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Jour_Du_Mois
+		dataType: int64
+		formatString: 0
+		lineageTag: cfb0def9-e832-464e-903c-abec7f97151d
+		sourceLineageTag: Jour_Du_Mois
+		summarizeBy: sum
+		sourceColumn: Jour_Du_Mois
+
+		annotation SummarizationSetBy = Automatic
+
+	column Jour_Semaine
+		dataType: int64
+		formatString: 0
+		lineageTag: 86f67113-d992-4170-8ad1-91a7215043bc
+		sourceLineageTag: Jour_Semaine
+		summarizeBy: sum
+		sourceColumn: Jour_Semaine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_Jour
+		dataType: string
+		lineageTag: 2dff061e-34cb-4298-8017-d16a8fe95108
+		sourceLineageTag: Libelle_Jour
+		summarizeBy: none
+		sourceColumn: Libelle_Jour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Est_Jour_Ouvre
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d8bbd9d-6897-4698-9227-89ad6872e76a
+		sourceLineageTag: Est_Jour_Ouvre
+		summarizeBy: sum
+		sourceColumn: Est_Jour_Ouvre
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: dim
+			expressionSource: 'DirectLake - lkh_gold'
+

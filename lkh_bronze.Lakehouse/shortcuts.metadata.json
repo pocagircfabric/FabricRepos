@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "name": "icebergData",
+    "path": "/Tables",
+    "target": {
+      "type": "AmazonS3",
+      "amazonS3": {
+        "connectionId": "6d4671ea-ed3c-4053-b2b4-5f0e3fad002f",
+        "location": "s3://myicebergsnowbucket",
+        "subpath": "/iceberg/tpch/lineitem_iceberg"
+      }
+    }
+  },
+  {
+    "name": "tpch",
+    "path": "/Files",
+    "target": {
+      "type": "AmazonS3",
+      "amazonS3": {
+        "connectionId": "6d4671ea-ed3c-4053-b2b4-5f0e3fad002f",
+        "location": "s3://myicebergsnowbucket",
+        "subpath": "/iceberg/tpch"
+      }
+    }
+  },
+  {
+    "name": "iceberg",
+    "path": "/Files",
+    "target": {
+      "type": "AmazonS3",
+      "amazonS3": {
+        "connectionId": "6d4671ea-ed3c-4053-b2b4-5f0e3fad002f",
+        "location": "s3://myicebergsnowbucket",
+        "subpath": "/iceberg"
+      }
+    }
+  }
+]

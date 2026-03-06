@@ -1,0 +1,7 @@
+role KLESIA
+	modelPermission: read
+
+	tablePermission dim_irc = [Identifiant_fonctionnel_IRC_Tache] == "KLESIA"
+
+	annotation PBI_Id = 297520d456a246fc934d897899a49a3e
+

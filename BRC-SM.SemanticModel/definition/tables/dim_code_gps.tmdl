@@ -1,0 +1,29 @@
+table dim_code_gps
+	lineageTag: b364b31f-b3dd-4671-890e-dce94e1a7b5a
+	sourceLineageTag: [dim].[dim_code_gps]
+
+	column Code_GPS
+		dataType: string
+		lineageTag: 03f861af-9ac3-4211-a0a8-669dfedf153b
+		sourceLineageTag: Code_GPS
+		summarizeBy: none
+		sourceColumn: Code_GPS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_GPS
+		dataType: string
+		lineageTag: 84301c54-f0d7-48f5-9679-2a907f6797d8
+		sourceLineageTag: Libelle_GPS
+		summarizeBy: none
+		sourceColumn: Libelle_GPS
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_code_gps = entity
+		mode: directLake
+		source
+			entityName: dim_code_gps
+			schemaName: dim
+			expressionSource: 'DirectLake - lkh_gold'
+

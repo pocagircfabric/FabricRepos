@@ -1,0 +1,7 @@
+role 'MH (ALL)'
+	modelPermission: read
+
+	tablePermission dim_irc = LEFT([Identifiant_fonctionnel_IRC_Tache],2) == "MH"
+
+	annotation PBI_Id = 5311f955ca004a7188bcf6b9f6a35768
+

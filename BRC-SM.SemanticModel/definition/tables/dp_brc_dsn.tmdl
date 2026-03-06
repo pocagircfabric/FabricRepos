@@ -1,0 +1,489 @@
+table dp_brc_dsn
+	lineageTag: c68246a1-891e-4e7e-bc6f-a01e236137c8
+	sourceLineageTag: [dp3].[dp_brc_dsn]
+
+	measure Nb_Taches_Stock_DSN = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_dsn'),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: 2f4bf55d-950e-4435-8234-fc386afadede
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nb entreprises distinctes (SIREN)
+	measure Nb_Entreprises_DSN = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT('dp_brc_dsn'[SIREN]),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: 0545c817-0c41-43e6-accf-eec59f92f2c2
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nb de grandes entreprises
+	measure Nb_Grandes_Entreprises_DSN = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT('dp_brc_dsn'[SIREN]),
+			        'dp_brc_dsn'[Indicateur_Grande_entreprise] = "OUI",
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		formatString: 0
+		displayFolder: .KPI
+		lineageTag: 41824abd-fdfa-4032-9947-087bbd969f26
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+	/// Montant total des cotisations déclarées
+	measure Montant_Total_Cotisations = ```
+			
+			    CALCULATE(
+			        SUM('dp_brc_dsn'[Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice]),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		displayFolder: .KPI
+		lineageTag: b5be87ed-c184-4522-b1c7-de8073358484
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nombre moyen d'adhésions ouvertes
+	measure Nb_Moyen_Adhesions = ```
+			
+			    CALCULATE(
+			        AVERAGE('dp_brc_dsn'[Nombre_d_adhesions_ouvertes]),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		displayFolder: .KPI
+		lineageTag: 75b3f7b6-0fa1-418d-8539-9fea8ad0f0be
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Nb moyen de périodes en anomalie
+	measure Nb_Moyen_Periodes_Anomalie = ```
+			
+			    CALCULATE(
+			        AVERAGE('dp_brc_dsn'[Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice]),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		displayFolder: .KPI
+		lineageTag: 1d8b46f2-146c-4596-be6d-24e48e581b90
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Taux entreprises protégées DSN
+	measure Taux_Entreprises_Protegees_DSN = ```
+			
+			    DIVIDE(
+			        CALCULATE(
+			            COUNTROWS('dp_brc_dsn'),
+			            'dp_brc_dsn'[Indicateur_entreprise_protegee] = "O",
+			            'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			        ),
+			        [Nb_Taches_Stock_DSN]
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: .KPI
+		lineageTag: dfe5314b-42fc-4dfb-84fa-af14a1e73031
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nb moyen d'individus par entreprise
+	measure Nb_Moyen_Individus = ```
+			
+			    CALCULATE(
+			        AVERAGE('dp_brc_dsn'[Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice]),
+			        'dp_brc_dsn'[Tache_en_stock] = "OUI"
+			    )
+			```
+		displayFolder: .KPI
+		lineageTag: 22aa816d-24a1-4b39-a4fa-b91daac8b2b8
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Numero_Semaine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: af08a2c8-099b-4d50-916e-3bafcc1f905f
+		sourceLineageTag: Numero_Semaine
+		summarizeBy: none
+		sourceColumn: Numero_Semaine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_GPS
+		dataType: string
+		isHidden
+		lineageTag: 8367dc9f-0a21-4aff-a97f-c47d13b4c803
+		sourceLineageTag: Code_GPS
+		summarizeBy: none
+		sourceColumn: Code_GPS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_technique_tache
+		dataType: int64
+		formatString: 0
+		lineageTag: c958a025-cc48-43bd-84c0-11c2919fe04c
+		sourceLineageTag: Identifiant_technique_tache
+		summarizeBy: sum
+		sourceColumn: Identifiant_technique_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_fonctionnel_IRC_Tache
+		dataType: string
+		isHidden
+		lineageTag: 146aec23-3e7d-4dc9-a2ab-5ee77b090f6a
+		sourceLineageTag: Identifiant_fonctionnel_IRC_Tache
+		summarizeBy: none
+		sourceColumn: Identifiant_fonctionnel_IRC_Tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_type_tache
+		dataType: string
+		isHidden
+		lineageTag: a0909758-1a3d-4351-9614-8efac6c79f43
+		sourceLineageTag: Code_type_tache
+		summarizeBy: none
+		sourceColumn: Code_type_tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_type_tache
+		dataType: string
+		lineageTag: 5642255e-a2fe-4091-8b0d-d1fc5e1dd88f
+		sourceLineageTag: Libelle_long_type_tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_type_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Statut_Tache
+		dataType: string
+		lineageTag: 237bf037-b9dc-4b11-8bb3-55a725ebbebc
+		sourceLineageTag: Libelle_long_Statut_Tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_Statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Chemin_arborescence_nom_EG_Affectation
+		dataType: string
+		lineageTag: 736fb300-cf20-43dc-97ec-43292d5ced65
+		sourceLineageTag: Chemin_arborescence_nom_EG_Affectation
+		summarizeBy: none
+		sourceColumn: Chemin_arborescence_nom_EG_Affectation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anonymisation
+		dataType: string
+		lineageTag: a7b20618-47c9-40e8-bdb2-2cf0d07f031d
+		sourceLineageTag: Anonymisation
+		summarizeBy: none
+		sourceColumn: Anonymisation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_limite_de_traitement
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e3804761-6ea2-4d19-b494-f51f99ec7bcb
+		sourceLineageTag: Date_limite_de_traitement
+		summarizeBy: none
+		sourceColumn: Date_limite_de_traitement
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_de_creation_Tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dedcafda-30d9-4324-8443-b958c7e34177
+		sourceLineageTag: Date_de_creation_Tache
+		summarizeBy: none
+		sourceColumn: Date_de_creation_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_statut_Tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 01cece51-a1f9-49e4-bd0a-842e429ef42f
+		sourceLineageTag: Date_statut_Tache
+		summarizeBy: none
+		sourceColumn: Date_statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_1
+		dataType: string
+		lineageTag: 5df97f25-118a-4c44-89da-89403c8b5f5d
+		sourceLineageTag: Libelle_information_1
+		summarizeBy: none
+		sourceColumn: Libelle_information_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_2
+		dataType: string
+		lineageTag: baa84997-f3b5-4210-8dd7-f2f0a05a0067
+		sourceLineageTag: Libelle_information_2
+		summarizeBy: none
+		sourceColumn: Libelle_information_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_3
+		dataType: string
+		lineageTag: 9f6aa912-8672-4f39-be95-cda8810a050f
+		sourceLineageTag: Libelle_information_3
+		summarizeBy: none
+		sourceColumn: Libelle_information_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_nombre_1
+		dataType: string
+		lineageTag: 9ec44395-db5f-4e30-9f07-b9fabc2f6b2a
+		sourceLineageTag: Libelle_information_complementaire_nombre_1
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_nombre_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_nombre_1
+		dataType: int64
+		formatString: 0
+		lineageTag: ba58cc90-04d6-45c2-a464-7817b7fbcbe7
+		sourceLineageTag: Valeur_information_complementaire_nombre_1
+		summarizeBy: sum
+		sourceColumn: Valeur_information_complementaire_nombre_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_nombre_2
+		dataType: string
+		lineageTag: 70f1005d-a0f1-41e5-82f0-6058a1a3534b
+		sourceLineageTag: Libelle_information_complementaire_nombre_2
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_nombre_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_nombre_2
+		dataType: string
+		lineageTag: 986a8ada-3df6-4f49-b8ac-45c2344d7524
+		sourceLineageTag: Valeur_information_complementaire_nombre_2
+		summarizeBy: none
+		sourceColumn: Valeur_information_complementaire_nombre_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_date_1
+		dataType: string
+		lineageTag: a0de4021-ba27-485b-ab17-4253dc8f6c64
+		sourceLineageTag: Libelle_information_complementaire_date_1
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_date_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_date_1
+		dataType: string
+		lineageTag: 9f4ac0b5-0463-4e31-abca-2397e879a3b8
+		sourceLineageTag: Valeur_information_complementaire_date_1
+		summarizeBy: none
+		sourceColumn: Valeur_information_complementaire_date_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicateur_presence_libelle_commentaire_utilisateur
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a92e4aa-085d-4dc0-bcb1-50ab028f4303
+		sourceLineageTag: Indicateur_presence_libelle_commentaire_utilisateur
+		summarizeBy: sum
+		sourceColumn: Indicateur_presence_libelle_commentaire_utilisateur
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIREN
+		dataType: string
+		lineageTag: b5bc2933-5351-47bd-af2a-89ef0aa45951
+		sourceLineageTag: SIREN
+		summarizeBy: none
+		sourceColumn: SIREN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicateur_Grande_entreprise
+		dataType: string
+		lineageTag: db6e6351-f92c-49c4-975e-7baa555b3a07
+		sourceLineageTag: Indicateur_Grande_entreprise
+		summarizeBy: none
+		sourceColumn: Indicateur_Grande_entreprise
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre_d_adhesions_ouvertes
+		dataType: int64
+		formatString: 0
+		lineageTag: f0f4c46c-2e63-4b81-bac8-b66ac65d50db
+		sourceLineageTag: Nombre_d_adhesions_ouvertes
+		summarizeBy: sum
+		sourceColumn: Nombre_d_adhesions_ouvertes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicateur_entreprise_protegee
+		dataType: string
+		lineageTag: abd2ea42-870f-4dde-8525-cbff83fd4d85
+		sourceLineageTag: Indicateur_entreprise_protegee
+		summarizeBy: none
+		sourceColumn: Indicateur_entreprise_protegee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice
+		dataType: int64
+		formatString: 0
+		lineageTag: 000f4905-ae1e-4b05-9717-21db338ac60e
+		sourceLineageTag: Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice
+		summarizeBy: sum
+		sourceColumn: Nombre_d_individus_moyen_d_un_identifiant_externe_entreprise_pour_un_exercice
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice
+		dataType: int64
+		formatString: 0
+		lineageTag: 7985dfc6-8e4e-45e4-82de-aa578f3fd872
+		sourceLineageTag: Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice
+		summarizeBy: sum
+		sourceColumn: Nombre_de_periodes_consolidees_en_anomalie_pour_une_entreprise_et_pour_un_exercice
+
+		annotation SummarizationSetBy = Automatic
+
+	column Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice
+		dataType: int64
+		formatString: 0
+		lineageTag: b19e8ab4-7ca3-4e05-8f3a-5e9b6e7d0641
+		sourceLineageTag: Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice
+		summarizeBy: sum
+		sourceColumn: Montant_des_cotisations_declares_de_l_entreprise_pour_un_exercice
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_stock
+		dataType: string
+		lineageTag: 626aea02-e66c-4f66-85b2-b19122cfdbd6
+		sourceLineageTag: Tache_en_stock
+		summarizeBy: none
+		sourceColumn: Tache_en_stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_entree
+		dataType: string
+		lineageTag: c9c43c05-20f2-4917-8ea4-47e9b4670094
+		sourceLineageTag: Tache_en_entree
+		summarizeBy: none
+		sourceColumn: Tache_en_entree
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_sortie
+		dataType: string
+		lineageTag: 7550be4d-c3c9-4c28-a352-cca032ad490b
+		sourceLineageTag: Tache_en_sortie
+		summarizeBy: none
+		sourceColumn: Tache_en_sortie
+
+		annotation SummarizationSetBy = Automatic
+
+	column integration_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3c39cfdb-41ee-41c1-a089-14c9b8d41c9a
+		sourceLineageTag: integration_ts
+		summarizeBy: none
+		sourceColumn: integration_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dp_brc_dsn = entity
+		mode: directLake
+		source
+			entityName: dp_brc_dsn
+			schemaName: dp3
+			expressionSource: 'DirectLake - lkh_gold'
+

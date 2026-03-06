@@ -1,0 +1,5 @@
+role 'ALL IRC'
+	modelPermission: read
+
+	annotation PBI_Id = e3e26be7352246b0b8ce83cb14a1c10e
+

@@ -1,0 +1,11 @@
+expression 'DirectLake - lkh_gold' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/d500bac7-7518-4386-b1f8-857ca400e400/05a7438c-de65-493f-9ab4-a14c2617a07b", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 1f8a758e-fd25-49d1-9f54-2fb27ed7bc45
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp5].[dp_scl_dossier]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp7].[dp_brc_dsn_stock_tache]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp4].[dp_scl_tache]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp6].[dp_brc_cfiab_stock_tache]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp9].[dp_brc_agrege]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dp8].[dp_scl_dossier_stock_synthese]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dim].[dim_processus]"}},"objectType":"Table"}]
+

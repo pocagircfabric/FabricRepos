@@ -1,0 +1,60 @@
+relationship fd039473-b34a-1753-834e-65be1188b914
+	fromColumn: dp_brc_cfiab.Numero_Semaine
+	toColumn: dim_semaine.Numero_Semaine
+
+relationship 48b720e7-2b2e-df54-9acb-6d354e787179
+	fromColumn: dp_brc_dsn.Numero_Semaine
+	toColumn: dim_semaine.Numero_Semaine
+
+relationship 7b596897-82f7-b1a1-c963-b787706f8783
+	fromColumn: dp_brc_global.Numero_Semaine
+	toColumn: dim_semaine.Numero_Semaine
+
+relationship 2decadb8-ea83-7bb7-1060-46b678498e53
+	fromColumn: dp_brc_cfiab.Code_type_tache
+	toColumn: dim_type_tache.Code_type_tache
+
+relationship 7b748bcd-14f7-9194-d2e8-1e40387a6e92
+	fromColumn: dp_brc_dsn.Code_type_tache
+	toColumn: dim_type_tache.Code_type_tache
+
+relationship abf53be4-f313-20ff-fe5b-c95830065ea2
+	fromColumn: dp_brc_global.Code_type_tache
+	toColumn: dim_type_tache.Code_type_tache
+
+relationship 92dacfe3-0a21-cb16-1cee-717f4915f1f4
+	fromColumn: dp_brc_cfiab.Identifiant_fonctionnel_IRC_Tache
+	toColumn: dim_irc.Identifiant_fonctionnel_IRC_Tache
+
+relationship 3757227f-89bb-3b3d-e10b-4f9ab136fc40
+	fromColumn: dp_brc_dsn.Identifiant_fonctionnel_IRC_Tache
+	toColumn: dim_irc.Identifiant_fonctionnel_IRC_Tache
+
+relationship 33c530cc-3ef7-9f8e-8bbd-5d94a8b5ccdc
+	fromColumn: dp_brc_global.IRC_primo_affectation_tache
+	toColumn: dim_irc.Identifiant_fonctionnel_IRC_Tache
+
+relationship c4c6488a-9d53-507a-3fdf-4a4b1240b71d
+	fromColumn: dp_brc_cfiab.Code_GPS
+	toColumn: dim_code_gps.Code_GPS
+
+relationship 27f68d83-2728-111e-b4b3-e4f64e6d3fc2
+	fromColumn: dp_brc_dsn.Code_GPS
+	toColumn: dim_code_gps.Code_GPS
+
+relationship 1fd4c284-6024-7475-09cc-c94385ecb0a7
+	fromColumn: dp_brc_global.Code_GPS
+	toColumn: dim_code_gps.Code_GPS
+
+relationship 8891e406-7619-92a7-8d2c-cf2a493c2e46
+	fromColumn: dp_brc_cfiab.Date_limite_de_traitement
+	toColumn: dim_date.Date_Key
+
+relationship 852e21df-ce3d-ea61-1288-2fbc40aa0ce7
+	fromColumn: dp_brc_dsn.Date_limite_de_traitement
+	toColumn: dim_date.Date_Key
+
+relationship 0aeb4130-db7f-dcf0-264a-50928611297d
+	fromColumn: dp_brc_global.Date_limite_de_traitement
+	toColumn: dim_date.Date_Key
+

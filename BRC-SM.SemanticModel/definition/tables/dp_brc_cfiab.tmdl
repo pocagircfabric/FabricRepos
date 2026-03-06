@@ -1,0 +1,368 @@
+table dp_brc_cfiab
+	lineageTag: adb09f48-8224-4381-8088-24b2128ec2c1
+	sourceLineageTag: [dp2].[dp_brc_cfiab]
+
+	measure Nb_Taches_Stock_CFIAB = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_cfiab'),
+			        'dp_brc_cfiab'[Tache_en_Stock] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: 0eea97b4-805c-4d8b-bb98-8bf77ca4003b
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Nb d'entreprises protégées en stock
+	measure Nb_Entreprises_Protegees_CFIAB = ```
+			
+			    CALCULATE(
+			        COUNTROWS('dp_brc_cfiab'),
+			        'dp_brc_cfiab'[Indicateur_entreprise_protegee] = "O",
+			        'dp_brc_cfiab'[Tache_en_Stock] = "OUI"
+			    )
+			```
+		formatString: #,0
+		displayFolder: .KPI
+		lineageTag: ff3867d9-67ea-4bb4-9320-e04765893849
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Taux d'entreprises protégées
+	measure Taux_Entreprises_Protegees_CFIAB = ```
+			
+			    DIVIDE([Nb_Entreprises_Protegees_CFIAB], [Nb_Taches_Stock_CFIAB])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: .KPI
+		lineageTag: 8765b21c-abc0-404d-a3c0-60d921d345cb
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	/// Ancienneté moyenne CFIAB (jours)
+	measure Anciennete_Moyenne_CFIAB = ```
+			
+			    CALCULATE(
+			        AVERAGEX(
+			            'dp_brc_cfiab',
+			            DATEDIFF(
+			                'dp_brc_cfiab'[Date_de_creation_Tache],
+			                NOW(),
+			                DAY
+			            )
+			        ),
+			        'dp_brc_cfiab'[Tache_en_Stock] = "OUI"
+			    )
+			```
+		displayFolder: .KPI
+		lineageTag: 341460a8-713e-45ac-918f-50d5cf6ffb3b
+
+		changedProperty = Name
+
+		changedProperty = Description
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Numero_Semaine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b2e82293-4ec0-4ac2-af04-e87daee23be3
+		sourceLineageTag: Numero_Semaine
+		summarizeBy: none
+		sourceColumn: Numero_Semaine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_GPS
+		dataType: string
+		isHidden
+		lineageTag: 9a3638ba-49ed-4c5e-8852-55455dbeecb7
+		sourceLineageTag: Code_GPS
+		summarizeBy: none
+		sourceColumn: Code_GPS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_technique_tache
+		dataType: int64
+		formatString: 0
+		lineageTag: 68844498-dbbf-475b-8b4c-5c3e5071040d
+		sourceLineageTag: Identifiant_technique_tache
+		summarizeBy: sum
+		sourceColumn: Identifiant_technique_tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_fonctionnel_IRC_Tache
+		dataType: string
+		isHidden
+		lineageTag: 353ee6ec-be7a-49fd-83b2-cb9ab6b3ce13
+		sourceLineageTag: Identifiant_fonctionnel_IRC_Tache
+		summarizeBy: none
+		sourceColumn: Identifiant_fonctionnel_IRC_Tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code_type_tache
+		dataType: string
+		isHidden
+		lineageTag: 315bed32-d2c4-46b4-bf5d-6cee96c07eda
+		sourceLineageTag: Code_type_tache
+		summarizeBy: none
+		sourceColumn: Code_type_tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_type_tache
+		dataType: string
+		isHidden
+		lineageTag: 7673ed9f-5016-43bf-9103-fb7952751ba5
+		sourceLineageTag: Libelle_long_type_tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_type_tache
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_long_Statut_Tache
+		dataType: string
+		lineageTag: 7c26cbdc-2488-4d90-9dce-e731d2fff864
+		sourceLineageTag: Libelle_long_Statut_Tache
+		summarizeBy: none
+		sourceColumn: Libelle_long_Statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Chemin_arborescence_nom_EG_Affectation
+		dataType: string
+		lineageTag: 5a78dd66-45e9-4e92-b30f-132766f7d07c
+		sourceLineageTag: Chemin_arborescence_nom_EG_Affectation
+		summarizeBy: none
+		sourceColumn: Chemin_arborescence_nom_EG_Affectation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anonymisation
+		dataType: string
+		lineageTag: 7aa6bc75-fa5a-4c5a-ac63-61866b134e45
+		sourceLineageTag: Anonymisation
+		summarizeBy: none
+		sourceColumn: Anonymisation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_limite_de_traitement
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: de344314-bbb2-4a64-b140-5101dc4636e4
+		sourceLineageTag: Date_limite_de_traitement
+		summarizeBy: none
+		sourceColumn: Date_limite_de_traitement
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_de_creation_Tache
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ed883e2c-3a9f-47da-a84e-676a2e9bde06
+		sourceLineageTag: Date_de_creation_Tache
+		summarizeBy: none
+		sourceColumn: Date_de_creation_Tache
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Date_statut_Tache
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 787a69d1-302c-4ace-b949-9ca8e00a5cb4
+		sourceLineageTag: Date_statut_Tache
+		summarizeBy: none
+		sourceColumn: Date_statut_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anciennete_Tache
+		dataType: string
+		lineageTag: ca0a47b8-609e-44cb-9de0-cf32d1d9dfef
+		sourceLineageTag: Anciennete_Tache
+		summarizeBy: none
+		sourceColumn: Anciennete_Tache
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_nombre_1
+		dataType: string
+		lineageTag: 9473a050-1e6f-4454-a751-b628b53c830b
+		sourceLineageTag: Libelle_information_complementaire_nombre_1
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_nombre_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_nombre_1
+		dataType: int64
+		formatString: 0
+		lineageTag: a878701b-625c-4b58-afd4-9b06e47e8c20
+		sourceLineageTag: Valeur_information_complementaire_nombre_1
+		summarizeBy: sum
+		sourceColumn: Valeur_information_complementaire_nombre_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_nombre_2
+		dataType: string
+		lineageTag: 963037f4-7e3b-4a33-94fc-16200153a230
+		sourceLineageTag: Libelle_information_complementaire_nombre_2
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_nombre_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_nombre_2
+		dataType: string
+		lineageTag: 4aea38b7-244d-4777-9c49-af7849ca7a2e
+		sourceLineageTag: Valeur_information_complementaire_nombre_2
+		summarizeBy: none
+		sourceColumn: Valeur_information_complementaire_nombre_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Libelle_information_complementaire_nombre_3
+		dataType: string
+		lineageTag: 39bc4c22-d2e8-4380-ab05-c159b83234cf
+		sourceLineageTag: Libelle_information_complementaire_nombre_3
+		summarizeBy: none
+		sourceColumn: Libelle_information_complementaire_nombre_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valeur_information_complementaire_nombre_3
+		dataType: int64
+		formatString: 0
+		lineageTag: e444dc64-033a-43fa-8e7e-e7e6e5681289
+		sourceLineageTag: Valeur_information_complementaire_nombre_3
+		summarizeBy: sum
+		sourceColumn: Valeur_information_complementaire_nombre_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicateur_presence_libelle_commentaire_utilisateur
+		dataType: int64
+		formatString: 0
+		lineageTag: 47dfde3d-7a76-43ba-a75f-cae9a7e0a04c
+		sourceLineageTag: Indicateur_presence_libelle_commentaire_utilisateur
+		summarizeBy: sum
+		sourceColumn: Indicateur_presence_libelle_commentaire_utilisateur
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicateur_entreprise_protegee
+		dataType: string
+		lineageTag: 3e40deda-7adf-4662-91c2-c643c811a586
+		sourceLineageTag: Indicateur_entreprise_protegee
+		summarizeBy: none
+		sourceColumn: Indicateur_entreprise_protegee
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_interne_Type_Objet_Gestion_Reference
+		dataType: string
+		lineageTag: 2b5516d0-ab1e-43bc-b944-25304363c108
+		sourceLineageTag: Identifiant_interne_Type_Objet_Gestion_Reference
+		summarizeBy: none
+		sourceColumn: Identifiant_interne_Type_Objet_Gestion_Reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identifiant_Public_Type_Objet_CTX2
+		dataType: string
+		lineageTag: 7790e7f5-68d5-4322-aa90-6128c71e159a
+		sourceLineageTag: Identifiant_Public_Type_Objet_CTX2
+		summarizeBy: none
+		sourceColumn: Identifiant_Public_Type_Objet_CTX2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_Stock
+		dataType: string
+		lineageTag: 6420be08-d5b9-4c4b-942d-abf1f3d85812
+		sourceLineageTag: Tache_en_Stock
+		summarizeBy: none
+		sourceColumn: Tache_en_Stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_entree
+		dataType: string
+		lineageTag: 490eacd5-198f-42d1-87fb-3ed7b240c44f
+		sourceLineageTag: Tache_en_entree
+		summarizeBy: none
+		sourceColumn: Tache_en_entree
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tache_en_Sortie
+		dataType: string
+		lineageTag: fbec3b76-83f3-4f8c-9011-7e4277e43ba4
+		sourceLineageTag: Tache_en_Sortie
+		summarizeBy: none
+		sourceColumn: Tache_en_Sortie
+
+		annotation SummarizationSetBy = Automatic
+
+	column integration_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 70cb4c13-ce7a-459f-b468-3a57c9b47a2f
+		sourceLineageTag: integration_ts
+		summarizeBy: none
+		sourceColumn: integration_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dp_brc_cfiab = entity
+		mode: directLake
+		source
+			entityName: dp_brc_cfiab
+			schemaName: dp2
+			expressionSource: 'DirectLake - lkh_gold'
+

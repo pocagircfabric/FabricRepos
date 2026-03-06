@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "BRC-SM"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ab336367-7ea4-bbec-4320-42ba5a4d4e9e"
+  }
+}

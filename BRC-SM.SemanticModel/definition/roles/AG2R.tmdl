@@ -1,0 +1,7 @@
+role AG2R
+	modelPermission: read
+
+	tablePermission dim_irc = [Identifiant_fonctionnel_IRC_Tache] == "AG2R"
+
+	annotation PBI_Id = a15ad62e09d44576956340ebc991a965
+

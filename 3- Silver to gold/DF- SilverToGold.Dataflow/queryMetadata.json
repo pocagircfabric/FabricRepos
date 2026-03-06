@@ -1,0 +1,117 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "SilverToGold_dp_brc_global",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "dp_brc_global": {
+      "queryId": "cfe1788d-6194-4917-8562-60f72f6b7b7a",
+      "queryName": "dp_brc_global",
+      "loadEnabled": false
+    },
+    "dp_brc_global_DataDestination": {
+      "queryId": "6cd7ea2b-42df-419a-bf3f-1fc525aed54f",
+      "queryName": "dp_brc_global_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_brc_cfiab": {
+      "queryId": "20df8544-213b-482a-8826-ceccb873d348",
+      "queryName": "dp_brc_cfiab",
+      "loadEnabled": false
+    },
+    "dp_brc_cfiab_DataDestination": {
+      "queryId": "c82cc803-1d34-44fc-b168-976226a3552f",
+      "queryName": "dp_brc_cfiab_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_brc_dsn": {
+      "queryId": "5cc8d158-8b5d-4868-8149-8e09071c8742",
+      "queryName": "dp_brc_dsn",
+      "loadEnabled": false
+    },
+    "dp_scl_tache": {
+      "queryId": "89cf746c-46d5-4030-8690-df469affd369",
+      "queryName": "dp_scl_tache",
+      "loadEnabled": false
+    },
+    "dp_scl_dossier": {
+      "queryId": "2eef0cb7-2fab-4060-ba17-2d81b2462937",
+      "queryName": "dp_scl_dossier",
+      "loadEnabled": false
+    },
+    "dp_brc_cfiab_stock_tache": {
+      "queryId": "44933f50-11e5-42a5-b134-d7d4c1a7fb21",
+      "queryName": "dp_brc_cfiab_stock_tache",
+      "loadEnabled": false
+    },
+    "dp_brc_dsn_stock_tache": {
+      "queryId": "863908f1-b45b-4e57-9046-15cb848962f1",
+      "queryName": "dp_brc_dsn_stock_tache",
+      "loadEnabled": false
+    },
+    "dp_scl_dossier_stock_synthese": {
+      "queryId": "58a43ae2-3f7d-41e6-9bba-2156ff593287",
+      "queryName": "dp_scl_dossier_stock_synthese",
+      "loadEnabled": false
+    },
+    "dp_brc_agrege": {
+      "queryId": "0526a132-831f-40e1-9f6a-3b714a58a26d",
+      "queryName": "dp_brc_agrege",
+      "loadEnabled": false
+    },
+    "dp_brc_dsn_DataDestination": {
+      "queryId": "3f5bb345-58fb-47dd-af2a-75c25b027ff8",
+      "queryName": "dp_brc_dsn_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_scl_tache_DataDestination": {
+      "queryId": "5414d6c8-2397-424c-b8c7-1c0080692869",
+      "queryName": "dp_scl_tache_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_scl_dossier_DataDestination": {
+      "queryId": "a6b3a787-155e-4b0e-bec8-75a5b4f3aa24",
+      "queryName": "dp_scl_dossier_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_brc_cfiab_stock_tache_DataDestination": {
+      "queryId": "983fccd0-2cde-42e1-bd42-1646c3d09bec",
+      "queryName": "dp_brc_cfiab_stock_tache_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_brc_dsn_stock_tache_DataDestination": {
+      "queryId": "7ca0db09-9f41-4470-a788-7890f2369b0b",
+      "queryName": "dp_brc_dsn_stock_tache_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_scl_dossier_stock_synthese_DataDestination": {
+      "queryId": "a5cd8e3a-5f36-4563-9dd0-a57d20ca0629",
+      "queryName": "dp_scl_dossier_stock_synthese_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "dp_brc_agrege_DataDestination": {
+      "queryId": "42b8474c-f218-4f34-a56a-f937836e2b25",
+      "queryName": "dp_brc_agrege_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"9ed4a612-78a0-405f-a87e-e383d6ccd4d5\",\"DatasourceId\":\"9cf83b1b-c8be-4a1f-8030-be9d021ff84f\"}"
+    }
+  ]
+}

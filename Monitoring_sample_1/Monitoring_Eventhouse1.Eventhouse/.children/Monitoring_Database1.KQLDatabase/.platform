@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDatabase",
+    "displayName": "Monitoring_Database1",
+    "description": "Monitoring_Database1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0515cc40-073b-a47c-4855-e9991368f7f2"
+  }
+}
